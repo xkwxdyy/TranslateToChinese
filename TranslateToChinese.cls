@@ -55,8 +55,7 @@
     \msg_redirect_name:nnn { xeCJK } { CJKfamily-redef } { none }
     \defaultCJKfontfeatures
       {
-        Script  = CJK,
-        Mapping = fullwidth-stop ,
+        Script  = CJK
       }
   }
 
@@ -128,9 +127,6 @@
 \graphicspath{{img/}}
 
 
-% 页眉页脚、纸张和页面布局以及标题格式
-\file_input:n { TranslateToChinese.def }
-
 
 % 孤行寡行控制
 
@@ -157,13 +153,13 @@
 
 \cs_new:Npn \__translatetochinese_description_first_labelfont:n #1
   {
-    \bfseries #1：
+    \bfseries #1
     \ignorespaces
   }
 \cs_new:Npn \__translatetochinese_description_second_labelfont:n #1
   {
     $\bullet$~
-    \bfseries #1：
+    \bfseries #1
     \ignorespaces
   }
 \newlist{nounexplanation}{description}{2}
