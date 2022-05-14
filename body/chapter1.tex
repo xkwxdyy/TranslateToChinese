@@ -2,7 +2,81 @@
 
 \section{ACDNR}
 
-\section{ABC}
+ACDNR 代表自适应反差驱动降噪\translate{Adaptive Contrast-Driven Noise Reduction}。这是一个非常灵活的基于多尺度和数学形态学的降噪算法。
+
+ACDNR 和其他优秀的降噪工具一样，尽可能高效降低噪声的同时保护好细节。ACDNR包括两种协同工作的机制：一种特殊的低通滤波器和边缘保护机制。低通滤波器通过去除或者减弱小尺度结构来平滑图像，而边缘保护机制可以防止低通滤波过程中损坏细节和图像结构。
+
+ACDNR 提供了两组相同的参数，一组用于明度通道，一组用于彩色图像的色度通道。色度通道的参数应用于 CIE L*a*b 色彩空间中的CIE a* 和 b* 分量，而明度通道参数应用于彩色图像的 L 分量。一般来说，色度通道的参数远没有明度通道的激进，因此我们在色度通道中可以运用一个更强烈的降噪参数。
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width = 0.5\linewidth]{example-image}
+\end{figure}
+
+
+\subsection{何时使用 ACDNR}
+
+当我们试图降低图像中的噪声或者当我们想要使图像和蒙版变得更加柔和时，ACDNR 是一个很不错的选择。我们可以分别对细节（明度通道）和颜色（色度通道）应用降噪，所以当我们想要在两个通道中的一种进行降噪时，它也很有用。
+
+虽然 ACDNR 可以随时应用于线性和非线性图像，但它通常不是对线性图像降噪的最佳选择。要知道 ACDNR 是2003年左右产生于 Pixinsight 的最原始的一批进程之一。现在 Pixinsight 中提供了更多更先进的降噪算法比如\urlmarker[color = red]{TGVDenoise, MultiscaleLinearTransform}，或者 \urlmarker{MultiscaleMedianTransform}
+
+
+\subsubsection{参数apple}
+
+虽然 ACDNR 可以随时应用于线性和非线性图像，但它通常不是对线性图像降噪的最佳选择。要知道 ACDNR 是2003年左右产生于 Pixinsight 的最原始的一批进程之一。现在 Pixinsight 中提供了更多更先进的降噪算法比如\urlmarker[color = red]{TGVDenoise, MultiscaleLinearTransform}，或者 \urlmarker{MultiscaleMedianTransform}
+
+\subsection{ACDNR过滤器\translate*{ACDNR Fliter}}
+
+\begin{nounexplanation}
+  \item[运行\translate{Apply}] 由于 ACDNR 界面提供了双重功能，允许我们分别进行亮度通道和色度通道的降噪。我们可以启用（或禁用）此复选框以对明度通道（色度通道）进行降噪（或不降噪）。
+
+  \item[亮度蒙版\translate{Lightness mask}] 启用/禁用亮度蒙版来降低明度或者色度噪声，这取决于我们在哪个选项卡上。继续阅读以了解更多有关亮度蒙版的信息。
+  
+  \item[标准差\translate{Std.Dev.}] 低通滤波器的标准差（以像素为单位）。低通滤波器是一种数学函数，它被离散在一个很小的尺度上，这个尺度在图像处理术语中叫核。此参数控制低通滤波器所使用的内核大小。内核大小直接决定了低通滤波器去除图像结构的大小。举个例子，1 到 1.5 像素之间的标准差适合去除在大多数 CCD 图像中占主导地位的高频噪声。而在处理胶片图像时，2-3 像素的标准差很常见。更大的标准差，比如高达 4-6 像素时可以在蒙版的帮助下用于平滑天体图像中的低信噪比区域（如天空背景）。
+    \begin{nounexplanation}
+      \item[3$\times$3 Linear Interpolation] 这个线性函数对于分离较大和较小尺度的结构是一个很好的折中方案，它也是启动时的默认尺度函数。它在前四层细节层效果更好。
+      \item[5$\times$5 B3 Spline] 此函数可以很好得分离大尺度结构。例如，如果我们想增强星系悬臂或者大型星云的结构时，我们可以使用这个尺度函数。然而，如果我们想在更小的尺度上工作，例如为了降噪的目的或是为了增强行星，月面，或者恒星的细节，这个尺度函数不是一个好的选择。
+      \item[3$\times$3 Gaussian] 这是一个峰值函数，它在分离小尺度结构时效果不错，所以它可以被用来平滑图像。
+    \end{nounexplanation}
+\end{nounexplanation}
+
+
+\section{ACDNR}
+
+ACDNR 代表自适应反差驱动降噪\translate{Adaptive Contrast-Driven Noise Reduction}。这是一个非常灵活的基于多尺度和数学形态学的降噪算法。
+
+ACDNR 和其他优秀的降噪工具一样，尽可能高效降低噪声的同时保护好细节。ACDNR包括两种协同工作的机制：一种特殊的低通滤波器和边缘保护机制。低通滤波器通过去除或者减弱小尺度结构来平滑图像，而边缘保护机制可以防止低通滤波过程中损坏细节和图像结构。
+
+ACDNR 提供了两组相同的参数，一组用于明度通道，一组用于彩色图像的色度通道。色度通道的参数应用于 CIE L*a*b 色彩空间中的CIE a* 和 b* 分量，而明度通道参数应用于彩色图像的 L 分量。一般来说，色度通道的参数远没有明度通道的激进，因此我们在色度通道中可以运用一个更强烈的降噪参数。
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width = 0.5\linewidth]{example-image}
+\end{figure}
+
+
+\subsection{何时使用 ACDNR}
+
+当我们试图降低图像中的噪声或者当我们想要使图像和蒙版变得更加柔和时，ACDNR 是一个很不错的选择。我们可以分别对细节（明度通道）和颜色（色度通道）应用降噪，所以当我们想要在两个通道中的一种进行降噪时，它也很有用。
+
+虽然 ACDNR 可以随时应用于线性和非线性图像，但它通常不是对线性图像降噪的最佳选择。要知道 ACDNR 是2003年左右产生于 Pixinsight 的最原始的一批进程之一。现在 Pixinsight 中提供了更多更先进的降噪算法比如\urlmarker[color = red]{TGVDenoise, MultiscaleLinearTransform}，或者 \urlmarker{MultiscaleMedianTransform}
+
+
+\subsection{ACDNR过滤器\translate*{ACDNR Fliter}}
+
+\begin{nounexplanation}
+  \item[运行\translate{Apply}] 由于 ACDNR 界面提供了双重功能，允许我们分别进行亮度通道和色度通道的降噪。我们可以启用（或禁用）此复选框以对明度通道（色度通道）进行降噪（或不降噪）。
+
+  \item[亮度蒙版\translate{Lightness mask}] 启用/禁用亮度蒙版来降低明度或者色度噪声，这取决于我们在哪个选项卡上。继续阅读以了解更多有关亮度蒙版的信息。
+  
+  \item[标准差\translate{Std.Dev.}] 低通滤波器的标准差（以像素为单位）。低通滤波器是一种数学函数，它被离散在一个很小的尺度上，这个尺度在图像处理术语中叫核。此参数控制低通滤波器所使用的内核大小。内核大小直接决定了低通滤波器去除图像结构的大小。举个例子，1 到 1.5 像素之间的标准差适合去除在大多数 CCD 图像中占主导地位的高频噪声。而在处理胶片图像时，2-3 像素的标准差很常见。更大的标准差，比如高达 4-6 像素时可以在蒙版的帮助下用于平滑天体图像中的低信噪比区域（如天空背景）。
+    \begin{nounexplanation}
+      \item[3$\times$3 Linear Interpolation] 这个线性函数对于分离较大和较小尺度的结构是一个很好的折中方案，它也是启动时的默认尺度函数。它在前四层细节层效果更好。
+      \item[5$\times$5 B3 Spline] 此函数可以很好得分离大尺度结构。例如，如果我们想增强星系悬臂或者大型星云的结构时，我们可以使用这个尺度函数。然而，如果我们想在更小的尺度上工作，例如为了降噪的目的或是为了增强行星，月面，或者恒星的细节，这个尺度函数不是一个好的选择。
+      \item[3$\times$3 Gaussian] 这是一个峰值函数，它在分离小尺度结构时效果不错，所以它可以被用来平滑图像。
+    \end{nounexplanation}
+\end{nounexplanation}
+
 
 \section{ACDNR}
 

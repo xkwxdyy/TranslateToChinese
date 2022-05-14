@@ -127,7 +127,6 @@
 \graphicspath{{img/}}
 
 
-
 % 孤行寡行控制
 
 \int_set:Nn \clubpenalty { 350}
