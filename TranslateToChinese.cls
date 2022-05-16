@@ -216,6 +216,7 @@
       \keys_set:nn { TranslateToChinese / urlmarker } {#1}
       \color { \tl_use:N \l__translatetochinese_urlmarker_color_tl }
       \slshape
-      \CJKunderline{#2}
+      #2
+      % \CJKunderline{#2}
     \group_end:
   }
