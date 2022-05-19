@@ -85,6 +85,7 @@
 \RequirePackage { lastpage }       % 页码
 \RequirePackage { amsmath }        % 数学
 \RequirePackage { enumitem }       % 罗列环境
+\RequirePackage { tabularray }     % 表格
 \RequirePackage { hyperref }       % 超链接
 
 
@@ -143,7 +144,30 @@
     \group_end:
   }
 
-
+% 处理附录的页码
+\fancypagestyle { appendix }
+  {
+    \fancyhf { }
+    \fancyfoot [ C ]
+      {
+        \bfseries \thepage
+      }
+    \renewcommand{\headrulewidth}{0pt}
+  }
+\pretocmd { \appendix }
+  {
+    \fancypagestyle { plain }
+      {
+        \fancyhf { }
+        \fancyfoot [ C ]
+          {
+            \bfseries \thepage
+          }
+        \renewcommand{\headrulewidth}{0pt}
+      }
+    \pagestyle { appendix }
+  }
+  {}{}
 
 % 自定义的命令环境
 
